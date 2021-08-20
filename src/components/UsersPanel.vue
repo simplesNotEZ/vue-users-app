@@ -1,7 +1,7 @@
 <template>
   <div class="users-panel-container">
     <div class="addUserBtn-container">
-      <button class="addUserBtn" @click="addUser">Add User</button>
+      <button class="addUserBtn" @click="addUser">Add New User</button>
     </div>
     <h2>Current Users</h2>
     <User v-for="user in users" :user="user" :key="user.id" />
@@ -42,6 +42,7 @@ export default {
   margin-top: .25rem;
   width: 16rem;
   cursor: pointer;
+  text-transform: uppercase;
 }
 .addUserBtn:hover {
   background-color: #bfbfbf;

@@ -4,8 +4,8 @@
       <p>{{user.name}}</p>
       <p>{{user.id}}</p>
     </div>
-    <p>Username: {{user.username}}</p>
-    <p>Email: {{user.email}}</p>
+    <p><span class="identifier">Username: </span> {{user.username}}</p>
+    <p><span class="identifier">Email: </span>{{user.email}}</p>
     <div class="btns-container">
       <button @click="editUser">Edit</button>
       <button v-on:click="deleteUser">Delete</button>
@@ -14,8 +14,6 @@
 </template>
 
 <script>
-import api from "@/api.js";
-import { eventBus } from "@/main.js";
 import { mapMutations } from 'vuex';
 
 export default {
@@ -26,27 +24,17 @@ export default {
   methods: {
     ...mapMutations(['updateUserToEdit', 'updateFormStatus']),
     editUser() {
-      console.log("editUser exectued and this.user: ", this.user);
       this.updateUserToEdit(this.user);
       this.updateFormStatus("editingUser");
       this.$router.push({ path: "/form" });
     },
     deleteUser() {
-      console.log("in deleteUser this.user.id is: ", this.user.id);
-      api.delete(this.user.id)
-        .then((res) => {
-          console.log("deleteUser executed", res.data);
-          eventBus.$emit('userDeleted');
-        })
-        .catch((error) => {
-          console.log("DELETE error: ", error);
-        });
+      this.$store.dispatch('deleteUser', this.user.id);
     }
   }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 p {
   margin: 0;
@@ -66,9 +54,13 @@ p {
   display: flex;
   justify-content: center;
 }
+.identifier {
+  font-weight: 700;
+}
 .btns-container {
   display: flex;
   justify-content: center;
+  margin-top: .25rem;
 }
 button {
   border: 2px solid black;
@@ -78,6 +70,7 @@ button {
   margin: .25rem;
   width: 5rem;
   cursor: pointer;
+  text-transform: uppercase;
 }
 button:hover {
   background-color: #bfbfbf;

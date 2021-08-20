@@ -1,7 +1,7 @@
 <template>
   <div class="home">
-    <img alt="cloud logo" class="cloudImg" src="../assets/cloud.jpeg" height="200" />
-    <UsersPanel :users="users" @userDeleted="refreshUsers" />
+    <img alt="cloud logo" class="cloud-img" src="../assets/cloud.jpeg" />
+    <UsersPanel :users="users" />
   </div>
 </template>
 
@@ -9,60 +9,34 @@
 // @ is an alias to /src
 import UsersPanel from "@/components/UsersPanel.vue";
 
-import api from "@/api.js";
-import { eventBus } from "@/main.js";
+import { mapState } from 'vuex';
 
 export default {
   name: "Home",
   components: {
     UsersPanel
   },
-  data() {
-    return {
-      users: []
-    }
-  },
   created() {
-    console.log("%c Users in data: ", "color: green;", this.users);
-    api.getAll()
-      .then((res) => {
-        console.log("%c res.data from axios.get: ", "color: fuchsia;", res.data);
-        this.users = res.data;
-        console.log("%c this.users: ", "color: green;", this.users);
-      })
-      .catch((error) => {
-        console.log("getAll error: ", error);
-      });
+    if (!this.users) {
+      this.$store.dispatch('getUsers');
+    }
     // TODO: Potentially delete 
     // api.getById(5)
     //   .then(res => {
     //     console.log("%c res.data from axios.getById: ", "color: fuchsia;", res.data);
     //     this.users =  [res.data];
     //   });
-    eventBus.$on('userDeleted', () => {
-      console.log("eventBus userDeleted");
-      this.refreshUsers();
-    });
   },
-  methods: {
-    refreshUsers() {
-      api.getAll()
-      .then((res) => {
-        console.log("%c refreshUsers: ", "color: brown;", res.data);
-        this.users = res.data;
-      })
-      .catch((error) => {
-        console.log("getAll error: ", error);
-      });
-    }
-  },
-
+  computed: {
+    ...mapState(['users'])
+  }
 };
 
 </script>
 
 <style scoped>
-.cloudImg {
+.cloud-img {
   margin-bottom: 2rem;
+  height: 200px;
 }
 </style>

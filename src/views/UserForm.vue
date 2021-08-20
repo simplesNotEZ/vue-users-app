@@ -1,36 +1,40 @@
 <template>
-  <div class="form-container">
-    <form @submit="onSubmit">
-      <div class="form-div">
-        <h3 v-if="addingUser">Create a New User</h3>
-        <h3 v-if="editingUser">Editing {{ userToEdit.name }}</h3>
-      </div>
-      <div class="form-div names">
-        <label for="first-name">First Name:</label>
-        <input id="first-name" type="text" v-model="newUser.name" />
-      </div>
-      <div class="form-div">
-        <label for="last-name">Last Name:</label>
-        <input id="last-name" type="test" v-model="newUser.id" />
-      </div>
-      <div class="form-div username">
-        <label for="username">Username:</label>
-        <input id="username" type="text" v-model="newUser.username" />
-      </div>
-      <div class="form-div email">
-        <label for="email">Email:</label>
-        <input id="email" type="text" v-model="newUser.email" />
-      </div>
-      <div class="btns-container">
-        <button class="button" type="submit">{{ addingUser ? "Save" : "Save Edit" }}</button>
-        <input  class="button" type="button" @click="cancelClick" value="Cancel">
-      </div>
-    </form>
+  <div>
+    <div class="cloud-container">
+      <img alt="small cloud logo" class="cloud-img" src="../assets/cloud.jpeg" />
+    </div>
+    <div class="form-container">
+      <form @submit="onSubmit">
+        <div class="form-div">
+          <h3 v-if="addingUser">Create a New User</h3>
+          <h3 v-if="editingUser">Editing {{ userToEdit.name }}</h3>
+        </div>
+        <div class="form-div names">
+          <label for="first-name">First Name:</label>
+          <input id="first-name" type="text" v-model="newUser.name" />
+        </div>
+        <div class="form-div">
+          <label for="last-name">Last Name:</label>
+          <input id="last-name" type="test" v-model="newUser.id" />
+        </div>
+        <div class="form-div username">
+          <label for="username">Username:</label>
+          <input id="username" type="text" v-model="newUser.username" />
+        </div>
+        <div class="form-div email">
+          <label for="email">Email:</label>
+          <input id="email" type="text" v-model="newUser.email" />
+        </div>
+        <div class="btns-container">
+          <button class="button" type="submit">{{ addingUser ? "Save" : "Save Edit" }}</button>
+          <input  class="button" type="button" @click="cancelClick" value="Cancel">
+        </div>
+      </form>
+    </div>
   </div>
 </template>
 
 <script>
-import api from '@/api.js';
 import { mapState } from "vuex";
 
 export default {
@@ -46,7 +50,6 @@ export default {
     }
   },
   created() {
-    console.log("UserForm created");
     if (this.editingUser) {
       this.newUser = this.userToEdit;
     }
@@ -67,30 +70,30 @@ export default {
       if (this.addingUser) {
         this.newUser.id = Math.random() * 10;
         console.log("Submitted to Add a user!", this.newUser);
-        api.post(this.newUser)
-          .then((res) => {
-            console.log("post success!", res.data);
+        this.$store.dispatch('addUser', this.newUser)
+          .then(() => {
             this.$router.push({ path: '/' });
           })
-          .catch((error) => {
-            console.log("POST error: ", error);
-          });
+        // api.post(this.newUser)
+        //   .then((res) => {
+        //     console.log("post success!", res.data);
+        //     this.$router.push({ path: '/' });
+        //   })
+        //   .catch((error) => {
+        //     console.log("POST error: ", error);
+        //   });
       // for the PUT/editing an existing user
       } else {
         console.log("Submitted Edits! this.newUser.id: ", this.newUser.id);
-        api.put(this.newUser.id, this.newUser)
-          .then((res) => {
-            console.log("PUT success!", res.data);
+        const userToEditInfo = { userId: this.newUser.id, newUser: this.newUser };
+        this.$store.dispatch('editUser', userToEditInfo)
+          .then( () => {
             this.$router.push({ path: '/' });
           })
-          .catch((error) => {
-            console.log("PUT error: ", error);
-          });
       }
     },
     
     cancelClick() {
-      console.log("cancelClick ran!");
       this.$router.push('/');
     }
   }
@@ -99,17 +102,28 @@ export default {
 
 <style scoped>
 .form-container {
+  padding-top: 5%;
   display: flex;
   justify-content: center;
+}
+.cloud-container {
+  display: flex;
+  justify-content: flex-start;
+}
+.cloud-img {
+  height: 100px;
 }
 form {
   background-color:  #ffffb3;
   border: 2px solid black;
   border-radius: 1rem;
-  padding: 0 0 1rem 0;
+  padding: .75rem 2rem 2rem;
 }
 .form-div {
   margin: .5rem 1rem;
+}
+h3 {
+  font-size: 1.25rem;
 }
 label {
   margin-right: .25rem;
@@ -119,6 +133,8 @@ label {
 }
 input {
   width: 15rem;
+  border-radius: .25rem;
+  padding: .25rem;
 }
 .btns-container {
   display: flex;
@@ -133,6 +149,7 @@ input {
   margin: .25rem 1rem;
   width: 90%;
   cursor: pointer;
+  text-transform: uppercase;
 }
 .button:hover {
   background-color: #bfbfbf;

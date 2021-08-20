@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Home.vue renders correctly 1`] = `
+<div class="home"><img alt="cloud logo" src="../assets/cloud.jpeg" height="200" class="cloudImg">
+  <userspanel-stub users=""></userspanel-stub>
+</div>
+`;
