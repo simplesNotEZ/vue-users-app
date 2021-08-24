@@ -69,7 +69,6 @@ export default {
       // for the POST/creating a new user
       if (this.addingUser) {
         this.newUser.id = Math.random() * 10;
-        console.log("Submitted to Add a user!", this.newUser);
         this.$store.dispatch('addUser', this.newUser)
           .then(() => {
             this.$router.push({ path: '/' });
