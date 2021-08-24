@@ -1,7 +1,11 @@
 <template>
   <div>
     <div class="cloud-container">
-      <img alt="small cloud logo" class="cloud-img" src="../assets/cloud.jpeg" />
+      <img
+        alt="small cloud logo"
+        class="cloud-img"
+        src="../assets/cloud.jpeg"
+      />
     </div>
     <div class="form-container">
       <form @submit="onSubmit">
@@ -26,8 +30,15 @@
           <input id="email" type="text" v-model="newUser.email" />
         </div>
         <div class="btns-container">
-          <button class="button" type="submit">{{ addingUser ? "Save" : "Save Edit" }}</button>
-          <input  class="button" type="button" @click="cancelClick" value="Cancel">
+          <button class="button" type="submit">
+            {{ addingUser ? "Save" : "Save Edit" }}
+          </button>
+          <input
+            class="button"
+            type="button"
+            @click="cancelClick"
+            value="Cancel"
+          />
         </div>
       </form>
     </div>
@@ -42,12 +53,12 @@ export default {
   data() {
     return {
       newUser: {
-        name: '',
+        name: "",
         id: null,
-        username: '',
-        email: ''
-      }
-    }
+        username: "",
+        email: "",
+      },
+    };
   },
   created() {
     if (this.editingUser) {
@@ -55,13 +66,13 @@ export default {
     }
   },
   computed: {
-    ...mapState(['userToEdit', 'formStatus']),
+    ...mapState(["userToEdit", "formStatus"]),
     addingUser() {
-      return this.formStatus === 'addingUser';
+      return this.formStatus === "addingUser";
     },
     editingUser() {
-      return this.formStatus === 'editingUser';
-    }
+      return this.formStatus === "editingUser";
+    },
   },
   methods: {
     onSubmit(event) {
@@ -69,10 +80,9 @@ export default {
       // for the POST/creating a new user
       if (this.addingUser) {
         this.newUser.id = Math.random() * 10;
-        this.$store.dispatch('addUser', this.newUser)
-          .then(() => {
-            this.$router.push({ path: '/' });
-          })
+        this.$store.dispatch("addUser", this.newUser).then(() => {
+          this.$router.push({ path: "/" });
+        });
         // api.post(this.newUser)
         //   .then((res) => {
         //     console.log("post success!", res.data);
@@ -81,22 +91,23 @@ export default {
         //   .catch((error) => {
         //     console.log("POST error: ", error);
         //   });
-      // for the PUT/editing an existing user
+        // for the PUT/editing an existing user
       } else {
-        console.log("Submitted Edits! this.newUser.id: ", this.newUser.id);
-        const userToEditInfo = { userId: this.newUser.id, newUser: this.newUser };
-        this.$store.dispatch('editUser', userToEditInfo)
-          .then( () => {
-            this.$router.push({ path: '/' });
-          })
+        const userToEditInfo = {
+          userId: this.newUser.id,
+          newUser: this.newUser,
+        };
+        this.$store.dispatch("editUser", userToEditInfo).then(() => {
+          this.$router.push({ path: "/" });
+        });
       }
     },
-    
+
     cancelClick() {
-      this.$router.push('/');
-    }
-  }
-}
+      this.$router.push("/");
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -113,27 +124,27 @@ export default {
   height: 100px;
 }
 form {
-  background-color:  #ffffb3;
+  background-color: #ffffb3;
   border: 2px solid black;
   border-radius: 1rem;
-  padding: .75rem 2rem 2rem;
+  padding: 0.75rem 2rem 2rem;
 }
 .form-div {
-  margin: .5rem 1rem;
+  margin: 0.5rem 1rem;
 }
 h3 {
   font-size: 1.25rem;
 }
 label {
-  margin-right: .25rem;
+  margin-right: 0.25rem;
   width: 6rem;
   display: inline-block;
   text-align: left;
 }
 input {
   width: 15rem;
-  border-radius: .25rem;
-  padding: .25rem;
+  border-radius: 0.25rem;
+  padding: 0.25rem;
 }
 .btns-container {
   display: flex;
@@ -142,10 +153,10 @@ input {
 }
 .button {
   border: 2px solid black;
-  border-radius: .5rem;
-  padding: .5rem;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
   font-weight: bold;
-  margin: .25rem 1rem;
+  margin: 0.25rem 1rem;
   width: 90%;
   cursor: pointer;
   text-transform: uppercase;
