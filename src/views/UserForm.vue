@@ -83,14 +83,7 @@ export default {
         this.$store.dispatch("addUser", this.newUser).then(() => {
           this.$router.push({ path: "/" });
         });
-        // api.post(this.newUser)
-        //   .then((res) => {
-        //     console.log("post success!", res.data);
-        //     this.$router.push({ path: '/' });
-        //   })
-        //   .catch((error) => {
-        //     console.log("POST error: ", error);
-        //   });
+
         // for the PUT/editing an existing user
       } else {
         const userToEditInfo = {
