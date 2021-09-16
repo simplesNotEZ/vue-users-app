@@ -1,29 +1,23 @@
-# users-app
+# vue-users-app
 
-## Project setup
+A project built in Vue.js 2.0, created with @vue/cli v.4.5.13. The project fetches a list of users and mimics full CRUD functionality with the users.  The "BE" is just a fake API for testing--https://jsonplaceholder.typicode.com/. So, the GET(/READ) works as expected but the other functionality (CREATE, UPDATE, DELETE) doesn't truly work, but the code to do so is wired up.
+
+The project does use Vuex for state-management and vue-router for, well, routing.
+
+### To run the project in development-mode:
+
+1. clone the repo
+2. Run the following commands
 ```
 npm install
-```
-
-### Compiles and hot-reloads for development
-```
 npm run serve
 ```
 
-### Compiles and minifies for production
-```
-npm run build
-```
+I've added a couple of test files for two of the components--utilizing vue-test-utils w/ Jest. One of the test suites is failing at the time.
 
-### Run your unit tests
+### To run the unit tests:
 ```
 npm run test:unit
 ```
 
-### Lints and fixes files
-```
-npm run lint
-```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

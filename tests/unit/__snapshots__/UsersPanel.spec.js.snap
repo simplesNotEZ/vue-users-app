@@ -2,7 +2,7 @@
 
 exports[`UsersPanel renders correctly 1`] = `
 <div class="users-panel-container">
-  <div class="addUserBtn-container"><button class="addUserBtn">Add User</button></div>
+  <div class="addUserBtn-container"><button class="addUserBtn">Add New User</button></div>
   <h2>Current Users</h2>
   <user-stub user="[object Object]"></user-stub>
   <user-stub user="[object Object]"></user-stub>
